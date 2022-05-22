@@ -1,20 +1,78 @@
-import logo from "./logo.svg";
+import React, { useEffect, useState } from "react";
+//import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Switch,
+  Routes,
+  Route,
+  useParams,
+} from "react-router-dom";
 import "./App.css";
+import "./main.scss";
 
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.js";
+import HomePage from "./components/Home/index.js";
+import Collection from "./components/collection/index.js";
+import DetailPage from "./components/Detail/index.js";
+import NotFound from "./components/NotFound";
+import Footer from "./common/FOOTER/index.js";
+import Header from "./common/Header/index.js";
+import SearchProduct from "./components/searchProduct.js";
+import dataProduct from "./DATA/index";
+import axios from "axios";
 function App() {
+  const [data, setData] = useState(dataProduct[0].results);
+  const { productUrl } = useParams();
+  /*useEffect(() => {
+    fetchProducts();
+  }, []);*/
+
+  function fetchProducts() {
+    const baseURL =
+      "https://www.fakerestapi.com/datasets/api/v1/movie-details-dataset.json";
+    axios
+      .get(baseURL, {
+        headers: {
+          //https://5df7d1954fdcb20014a484d7.mockapi.io/api/product
+          /*Authorization:
+            "Bearer DAC0F7C0FE361B6D86CFC6E3A9E87s",
+          "Content-Type": "application/json"*/
+        },
+      })
+      .then((response) => {
+        var resdata = response.data.data;
+        setData(resdata);
+        //console.log(resdata);
+      })
+      .catch((error) => {
+        console.log("error " + error);
+      });
+  }
+  //console.log(data);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <h2>Hello world</h2>
-        <h3>change react</h3>
-        <h4>update</h4>
-        <h5>do nha</h5>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Header />
+        <Routes>
+          <Route exact path="/" element={<HomePage data={data} />}></Route>
+          <Route
+            path="/collections/all"
+            element={<Collection data={data} />}
+          ></Route>
+          <Route
+            path="/products/:productId"
+            element={<DetailPage data={data} />}
+          ></Route>
+          <Route
+            path="/find/product"
+            element={<SearchProduct data={data} />}
+          ></Route>
+          <Route path="*" element={<NotFound />}></Route>
+        </Routes>
+        <Footer />
+      </div>
+    </BrowserRouter>
   );
 }
 
