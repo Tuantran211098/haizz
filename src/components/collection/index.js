@@ -1,10 +1,9 @@
 import PropTypes from "prop-types";
 import $ from "jquery";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Pagination from "react-js-pagination";
 import { Link } from "react-router-dom";
 import "./../../main.js";
-
 import Iconquickview from "./../Home/imagepartner/iconquiclview.png";
 import ModalQuickView from "./modalQuickview.js";
 import SidebarFilter from "./sidebar.js";
@@ -16,6 +15,7 @@ Collection.defaultProps = {
 };
 function Collection(props) {
   const { data } = props;
+  const [renderData, setFilterdata] = useState(data);
   const [dataQuickView, setDataQuickView] = useState([]);
   //console.log("do", dataQuickView);
   function handleQuickView(data) {
@@ -56,14 +56,14 @@ function Collection(props) {
           className="col-lg-2 col-md-2 col-sm-6 col-xs-6 position-relative"
         >
           <div className="wrap-collection_result">
-          <div className="item-slide-img">
-            {
-              data.image.length > 1 ? (
-                <>
-                <img src={data.image[0].stt} className="collection_result-img slide-img-one"/>
-                <img src={data.image[1].stt} className="collection_result-img slide-img-two"/></>
-              ) : <img src={data.image[0].stt} className="collection_result-img slide-img-one"/>
-            }
+            <div className="item-slide-img">
+              {
+                data.image.length > 1 ? (
+                  <>
+                    <img src={data.image[0].stt} className="collection_result-img slide-img-one" />
+                    <img src={data.image[1].stt} className="collection_result-img slide-img-two" /></>
+                ) : <img src={data.image[0].stt} className="collection_result-img slide-img-one" />
+              }
             </div>
             <div className="collection_body">
               <h5 className="collection_body-title">{data.title}</h5>
@@ -129,6 +129,51 @@ function Collection(props) {
     setCurrentPage(pageNumber);
   };
 
+  useEffect(() => {
+    const filter_order = $('.filter_sort-mb');
+    $(filter_order).click(function () {
+      $(this).removeClass('active');
+      $(this).addClass('active');
+    });
+    var filterOrder = $('.sidebar-sort_blockone .filter_sort-mb input[type=checkbox]');
+    // console.log(filterOrder.filter(':checked').val());
+    if (filterOrder.filter(':checked').val() === "ascending") {
+      // const myData = data.sort(function(a, b) {
+      //   if(a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+      //   if(a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+      //   return 0;
+      // })
+      // const myData = [...data].sort(function (a, b) {
+      //   //if(a.title.toLowerCase() < b.title.toLowerCase()) return -1;
+      //   if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
+      //   return 0;
+      // });
+      var sorted = [...renderData].sort(function (a, b) {
+        var nameA = a.title.toLowerCase(), nameB = b.title.toLowerCase();
+
+        if (nameA < nameB) //sort string ascending
+          return -1;
+        if (nameA > nameB)
+          return 1;
+        return 0; //default return value (no sorting)
+      });
+      console.log("do", sorted);
+
+    }
+    // async function getFilter(data) {
+
+    //   try {
+    //     // const response = await fetch("/data.json");
+    //     // const data = await response.json();
+    //     const data = data;
+    //     // console.log(response);
+    //     console.log(data);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // }
+    // getFilter();
+  }, [data]);
   return (
     <div className="collections-page" id="collections-page">
       <div className="collections-page_filter">

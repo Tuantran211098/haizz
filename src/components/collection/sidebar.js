@@ -16,15 +16,17 @@ function SidebarFilter(props) {
                 id="sort-ascending"
                 className="countsortorder"
                 data-type="ascending"
+                value="ascending"
               />
               <label for="sort-ascending">Tăng Dần</label>
             </div>
-            <div className="filter_sort-mb filter_sort-order filter_sort-ascending">
+            <div className="filter_sort-mb filter_sort-order filter_sort-descending">
               <input
                 type="checkbox"
                 id="sort-descending"
                 className="countsortorder"
                 data-type="descending"
+                value="descending"
               />
               <label for="sort-descending">Giảm Dần</label>
             </div>
@@ -34,6 +36,7 @@ function SidebarFilter(props) {
                 id="sort-popular"
                 className="countsortorder"
                 data-type="popular"
+                value="popular"
               />
               <label for="sort-popular">Độ phổ biến</label>
             </div>
@@ -43,6 +46,7 @@ function SidebarFilter(props) {
                 id="sort-year"
                 className="countsortorder"
                 data-type="year"
+                value="year"
               />
               <label for="sort-year">Năm 2022</label>
             </div>

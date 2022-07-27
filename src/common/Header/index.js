@@ -120,7 +120,7 @@ function Header(props) {
                   src="https://img.icons8.com/ios-filled/18/666666/login-rounded-right.png"
                 />
               </i>
-              <span>Log in</span>
+              <Link to="/signin"><span>Log in</span></Link>
             </button>
             <button
               id="site-header-registration-button"

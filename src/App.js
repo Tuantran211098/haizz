@@ -9,9 +9,9 @@ import {
 } from "react-router-dom";
 import "./App.css";
 import "./main.scss";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.js";
+import "./mainjs";
 import HomePage from "./components/Home/index.js";
 import Collection from "./components/collection/index.js";
 import DetailPage from "./components/Detail/index.js";
@@ -21,6 +21,8 @@ import Header from "./common/Header/index.js";
 import SearchProduct from "./components/searchProduct.js";
 import dataProduct from "./DATA/index";
 import axios from "axios";
+import SignUp from "./components/Form/SignUp";
+import SignIn from "./components/Form/SignIn";
 function App() {
   const [data, setData] = useState(dataProduct[0].results);
   const { productUrl } = useParams();
@@ -68,6 +70,15 @@ function App() {
             path="/find/product"
             element={<SearchProduct data={data} />}
           ></Route>
+          <Route
+            path="/signup"
+            element={<SignUp />}
+          ></Route>
+          <Route
+            path="/signin"
+            element={<SignIn />}
+          ></Route>
+
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
         <Footer />
